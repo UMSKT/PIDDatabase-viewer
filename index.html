@@ -36,8 +36,8 @@
         <img src="img/logo.svg" width="54" height="54" class="col-auto p-0" alt="Database logo"/>
 
         <div class="col">
-            <h4 class="mb-0">SQLite Viewer</h4>
-            <p class="mb-0">view sqlite file online</p>
+            <h4 class="mb-0">PIDDatabase Viewer</h4>
+            <p class="mb-0">Powered by SQLite Viewer</p>
         </div>
 
         <a href="#" id="resizer" aria-label="Expand/Collapse" class="col-auto text-decoration-none" style="color: #3474A8">
@@ -56,15 +56,6 @@
 
     <div class="row text-center p-3 align-items-stretch" id="dropzone" onclick="dropzoneClick(this)">
         <div class="d-flex border border-info-subtle rounded-1 align-items-center justify-content-center">
-            <div id="drop-text">
-                <b>Drop file here</b> to load content or click on this box to open file dialog.<br/>
-
-                <div class="nouploadinfo small mb-3">No file will be uploaded - uses only JavaScript HTML5 FileReader.
-                </div>
-
-                <a id="sample-db-link" class="no-propagate small text-decoration-none"
-                   href="examples/Chinook_Sqlite.sqlite">&hellip; or download &amp; try this sample file</a>
-            </div>
             <div id="drop-loading" class="d-flex align-items-center d-none">
                 <div class="spinner-border me-2" role="status">
                     <span class="visually-hidden">Loading...</span>
@@ -130,11 +121,10 @@
 </div>
 
 <footer class="col text-center text-secondary py-2 my-1 small" id="footer">
-    <a href="https://yuraj11.github.io" class="text-decoration-none">&copy; 2024 Juraj Novák</a><br>
-    <small>| <a href="https://github.com/inloop/sqlite-viewer" class="text-decoration-none link-opacity-75">Fork me on GitHub</a> |</small>
+    This is a modified version of SQLite Viewer to more easily access a single database.<br>
+    <a href="https://yuraj11.github.io" class="text-decoration-none">Original source &copy; 2024 Juraj Novák</a><br>
+    <small>| <a href="https://github.com/inloop/sqlite-viewer" class="text-decoration-none link-opacity-75">Fork the real one on GitHub</a> |</small>
 </footer>
-
-<input type="file" id="dropzone-dialog" style="opacity: 0;display:none">
 
 <script src="js/jquery-3.7.1.min.js"></script>
 <script src="js/filereader.js"></script>

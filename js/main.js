@@ -70,20 +70,12 @@ function initialize() {
         el.stopPropagation();
     });
 
-    //Check url to load remote DB
-    $.urlParam = function (name) {
-        let results = new RegExp( `[\?&]${name}=([^&#]*)`).exec(window.location.href);
-        if (results == null) {
-            return null;
-        } else {
-            return results[1] || 0;
-        }
-    };
-    const loadUrlDB = $.urlParam("url");
+    const loadUrlDB = `https://api.allorigins.win/raw?url=${encodeURIComponent('https://github.com/UMSKT/PIDDatabase/releases/latest/download/piddatabase.db')}`;
     if (loadUrlDB != null) {
         setIsLoading(true);
         const xhr = new XMLHttpRequest();
         xhr.open("GET", decodeURIComponent(loadUrlDB), true);
+	xhr.setRequestHeader("Accept", "application/octet-stream");
         xhr.responseType = "arraybuffer";
         xhr.onload = function (e) {
             loadDB(this.response);
@@ -135,15 +127,15 @@ function loadDB(arrayBuffer) {
         tables.free();
 
         //Select first table and show It
-        tableList.val(firstTableName);
-        doDefaultSelect(firstTableName);
+        tableList.val("FullView");
+        doDefaultSelect("FullView");
 
         $("#output-box").fadeIn();
         $(".nouploadinfo").hide();
         $("#sample-db-link").hide();
-        $("#dropzone").delay(50).animate({height: 75}, 500);
+        $("#dropzone").delay(50).animate({height: 0}, 500).css("visibility", "hidden");
         $("#success-box").show();
-
+	//$("#dropzone, #dropzone-dialog").hide();
         setIsLoading(false);
     });
 }
@@ -240,7 +232,7 @@ function dropzoneClick() {
 }
 
 function doDefaultSelect(name) {
-    const defaultSelect = `SELECT * FROM '${name}' LIMIT 0,30`;
+    const defaultSelect = `SELECT * FROM '${name}'`;
     editor.setValue(defaultSelect, -1);
     renderQuery(defaultSelect);
 }
