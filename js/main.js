@@ -24,31 +24,6 @@ const selectFormatter = function (item) {
     }
 };
 
-let isUpdateReady = 0;
-
-function checkUpdate() {
-    // with JQuery
-$.getJSON('https://api.allorigins.win/raw?url=https://api.github.com/repos/UMSKT/PIDDatabase/actions/runs?per_page=1', function (data) {
-	console.log(data.workflow_runs[0].status);
-    if (data.workflow_runs[0].status === "in_progress") {
-        $("#dropzone").css("visibility", "visible").delay(50).animate({height: 75}, 500).html("A new update is being prepared. Things might change in a minute or two.");
-        isUpdateReady = 1;
-    }
-    else if (data.workflow_runs[0].status === "completed" && isUpdateReady === 1) {
-        let del = indexedDB.deleteDatabase("silver-surfer");
-        del.onsuccess = function() {
-            localStorage.removeItem("silver_surfer_actions_v2");
-            localStorage.removeItem("silver_surfer_interactions_v2");
-            localStorage.removeItem("silver_surfer_tracking_key_v2");
-            window.location.reload();
-        }
-    }
-});
-
-}
-
-setInterval(checkUpdate, 10000);
-
 initialize();
 
 function initialize() {
