@@ -1,14 +1,7 @@
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-SQLite%20Viewer-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/2497)
-
-SQLite Viewer
+PIDDatabase Viewer
 ============
 
-*View SQLite file online. Uses [sql.js](https://github.com/sql-js/sql.js) for parsing sqlite files.*
-
-You can also load remote files (using JS ajax, remote server must send `Access-Control-Allow-Origin:*`):
-`http://inloop.github.io/sqlite-viewer/?url=http://example.com/data.sqlite`
-
-![](/img/preview.png?raw=true "Example sqlite")
+An online viewer for the PIDDatabase, for convenience. Based on Juraj Novák's [SQLite Viewer](https://github.com/inloop/sqlite-viewer), specialized to fit the PIDDatabase.
 
 ### License
     Licensed under the Apache License, Version 2.0 (the "License");
