@@ -232,7 +232,19 @@ function dropzoneClick() {
 }
 
 function doDefaultSelect(name) {
-    const defaultSelect = `SELECT * FROM '${name}'`;
+    let defaultSelect = '';
+    if (name === "FullView" || name === "products") {
+	defaultSelect = `SELECT * from ${name} ORDER BY name, edition, variant, serviceRelease;`;
+    }
+    else if (name === "BINKs" || name === "ChannelRanges") {
+	defaultSelect = `SELECT * from ${name} ORDER BY MainTableID;`;
+    }
+    else if (name === "SerialRanges") {
+	defaultSelect = `SELECT * from ${name} ORDER BY MainChannelRangeID;`;
+    }
+    else {
+	defaultSelect = `SELECT * from ${name}`;
+    }
     editor.setValue(defaultSelect, -1);
     renderQuery(defaultSelect);
 }
