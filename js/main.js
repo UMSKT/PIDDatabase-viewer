@@ -70,35 +70,38 @@ function initialize() {
         el.stopPropagation();
     });
 
-    const loadUrlDB = `https://api.allorigins.win/raw?url=${encodeURIComponent('https://github.com/UMSKT/PIDDatabase/releases/latest/download/piddatabase.db')}`;
+    const loadUrlDB = 'https://raw.githubusercontent.com/UMSKT/PIDDatabase/refs/heads/master/umskt.db';
     if (loadUrlDB != null) {
         setIsLoading(true);
         const xhr = new XMLHttpRequest();
         xhr.open("GET", decodeURIComponent(loadUrlDB), true);
-	xhr.setRequestHeader("Accept", "application/octet-stream");
-        xhr.responseType = "arraybuffer";
-        xhr.onload = function (e) {
+        xhr.responseType = "text";
+        xhr.onload = function () {
             loadDB(this.response);
         };
-        xhr.onerror = function (e) {
+        xhr.onerror = function () {
             setIsLoading(false);
         };
         xhr.send();
     }
 }
 
-function loadDB(arrayBuffer) {
+function loadDB(sqlText) {
     setIsLoading(true);
 
     resetTableList();
 
-    initSqlJs({locateFile: file => SQL_WASM_PATH}).then(function (SQL) {
+    initSqlJs({ locateFile: file => SQL_WASM_PATH }).then(function (SQL) {
         let tables = null;
-        try {
-            db = new SQL.Database(new Uint8Array(arrayBuffer));
 
-            //Get all table names from master table
-            tables = db.prepare("SELECT * FROM sqlite_master WHERE type='table' OR type='view' ORDER BY name");
+        try {
+            db = new SQL.Database();
+            db.exec(sqlText);
+
+            tables = db.prepare(
+                "SELECT * FROM sqlite_master WHERE type='table' OR type='view' ORDER BY name"
+            );
+
         } catch (ex) {
             if (tables !== null) {
                 tables.free();
@@ -119,23 +122,27 @@ function loadDB(arrayBuffer) {
             if (firstTableName === null) {
                 firstTableName = name;
             }
+
             const rowCount = getTableRowsCount(name);
             loadedTableNames.push(name);
+
             const tableType = type !== "table" ? `, ${type}` : "";
-            tableList.append(`<option value="${name}">${name} (${rowCount} rows${tableType})</option>`);
+            tableList.append(
+                `<option value="${name}">${name} (${rowCount} rows${tableType})</option>`
+            );
         }
+
         tables.free();
 
-        //Select first table and show It
         tableList.val("FullView");
         doDefaultSelect("FullView");
 
         $("#output-box").fadeIn();
         $(".nouploadinfo").hide();
         $("#sample-db-link").hide();
-        $("#dropzone").delay(50).animate({height: 0}, 500).css("visibility", "hidden");
+        $("#dropzone").delay(50).animate({ height: 0 }, 500).css("visibility", "hidden");
         $("#success-box").show();
-	//$("#dropzone, #dropzone-dialog").hide();
+
         setIsLoading(false);
     });
 }
